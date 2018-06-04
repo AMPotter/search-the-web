@@ -1,17 +1,31 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <SearchControl :onSearch="handleSearch"/>
+    <ResultsList :pokemon="pokemon"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ResultsList from './components/ResultsList';
+import SearchControl from './components/SearchControl';
+import { getPokemon } from './services/api.js'
 
 export default {
-  name: 'app',
+  data() {
+    return {
+      pokemon: null
+    };
+  },
   components: {
-    HelloWorld
+    ResultsList,
+    SearchControl
+  },
+  methods: {
+    handleSearch(name) {
+      getPokemon(name).then(data => {
+        this.pokemon = data;
+      });
+    }
   }
 }
 </script>
